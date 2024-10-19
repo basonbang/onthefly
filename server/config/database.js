@@ -3,5 +3,4 @@ import './dotenv.js'
 
 const connectionString = process.env.DATABASE_URL
 
-export const pool = new pg.Pool(connectionString)
-
+export const pool = new pg.Pool({connectionString})
