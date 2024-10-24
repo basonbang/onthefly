@@ -8,3 +8,5 @@ router.get('/:id', DestinationsController.getDestination)
 router.post('/', DestinationsController.createDestination)
 router.patch('/:id', DestinationsController.updateDestination)
 router.delete('/:id', DestinationsController.deleteDestination)
+
+export default router

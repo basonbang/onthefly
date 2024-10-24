@@ -8,3 +8,5 @@ router.get('/:id', ActivitiesController.getTripActivities)
 router.post('/', ActivitiesController.createActivity)
 router.delete('/:id', ActivitiesController.deleteActivity)
 router.patch('/:id', ActivitiesController.updateActivityLikes)
+
+export default router
