@@ -17,9 +17,15 @@ const CreateTrip = () => {
     
     const createPost = (event) => {
         event.preventDefault();
-
-
-        
+        const options = {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(post)
+        }
+        fetch('/api/trips', options)
+        window.location.href = '/'
     }
 
 
