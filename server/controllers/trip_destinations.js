@@ -39,7 +39,7 @@ export const getAllTrips = async (req, res) => {
       SELECT * FROM trips 
       JOIN trips_destinations ON trips.id = trips_destinations.trip_id
       WHERE trips_destinations.destination_id = $1
-      `, [id])
+      `, [destination_id])
       res.status(200).json(results.rows)
   } catch (error) {
     res.status(409).json({ error: error.message})
@@ -55,7 +55,7 @@ export const getAllDestinations = async (req, res) => {
      SELECT * FROM destinations
      JOIN trips_destinations ON destinations.id = trips_destinations.destination_id
      WHERE trips_destinations.trip_id = $1
-      `, [id])
+      `, [trip_id])
       res.status(200).json(results.rows)
   } catch (error) {
     res.status(409).json({ error: error.message})

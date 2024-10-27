@@ -5,11 +5,22 @@ import './Card.css'
 
 const AddTripOptionCard = (props) =>  {
   const {destination_id} = useParams();
+  const trip_id = props.id
 
   const addToTrip = async (event) => {
     event.preventDefault();
-
-
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        trip_id,
+        destination_id
+      })
+    }
+    const response = await fetch('/api/trip-destinations', options)
+    window.location.href = '/'
 }
 
   return (
