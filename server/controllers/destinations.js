@@ -1,4 +1,4 @@
-import { pool } from "../config/database";
+import { pool } from "../config/database.js";
 
 // insert a new destination
 export const createDestination = async (req, res) => {
@@ -61,4 +61,12 @@ export const deleteDestination = async (req, res) => {
   } catch (error) {
     res.status(409).json({ error: error.message})
   }
+}
+
+export default {
+  createDestination,
+  getDestinations,
+  getDestination,
+  updateDestination,
+  deleteDestination
 }

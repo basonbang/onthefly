@@ -1,4 +1,4 @@
-import { pool } from "../config/database";
+import { pool } from "../config/database.js";
 
 // insert a new activity
 export const createActivity = async (req, res) => {
@@ -61,4 +61,12 @@ export const deleteActivity = async (req, res) => {
   } catch (error) {
     res.status(409).json({ error: error.message})
   }
+}
+
+export default {
+  createActivity,
+  getActivities,
+  getTripActivities,
+  updateActivityLikes,
+  deleteActivity
 }

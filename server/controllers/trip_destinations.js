@@ -2,7 +2,7 @@
  * Many to many table
  */
 
-import { pool } from "../config/database";
+import { pool } from "../config/database.js";
 
 // insert a new trip destination
 export const createTripDestination = async (req, res) => {
@@ -60,4 +60,11 @@ export const getAllDestinations = async (req, res) => {
   } catch (error) {
     res.status(409).json({ error: error.message})
   }
+}
+
+export default {
+  createTripDestination,
+  getTripsDestinations,
+  getAllTrips,
+  getAllDestinations
 }
