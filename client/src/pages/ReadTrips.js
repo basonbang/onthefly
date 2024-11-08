@@ -5,11 +5,11 @@ import Card from '../components/Card';
 const ReadTrips = (props) => {
 
     const [posts, setPosts] = useState([]);
-    
 
     useEffect(() => {
         setPosts(props.data);
     }, [props]);
+    
     
     return (
         <div className="ReadTrips">

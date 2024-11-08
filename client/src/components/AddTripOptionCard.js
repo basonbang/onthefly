@@ -19,7 +19,7 @@ const AddTripOptionCard = (props) =>  {
         destination_id
       })
     }
-    const response = await fetch('/api/trip-destinations', options)
+    const response = await fetch('http://localhost:3001/api/trip-destinations', options)
     window.location.href = '/'
 }
 

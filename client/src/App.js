@@ -20,12 +20,12 @@ const App = () => {
 
   useEffect(() => {
     const fetchTrips = async () => {
-      const response = await fetch('/api/trips')
+      const response = await fetch('http://localhost:3001/api/trips')
       const data = await response.json()
       setTrips(data)
     }
     const fetchDestinations = async () => {
-      const response = await fetch('/api/destinations')
+      const response = await fetch('http://localhost:3001/api/destinations')
       const data = await response.json()
       setDestinations(data)
     }

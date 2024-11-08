@@ -30,7 +30,7 @@ const CreateDestination = () => {
                 },
                 body: JSON.stringify(destination)
             }
-            const response = await fetch('/api/destinations', options)
+            const response = await fetch('http://localhost:3001/api/destinations', options)
             const data = response.json()
             setDestination(data)
             return data.id
@@ -44,7 +44,7 @@ const CreateDestination = () => {
                     destination_id
                 }) 
             }
-            const response = await fetch(`/api/trip-destinations`, options)
+            const response = await fetch(`http://localhost:3001/api/trip-destinations`, options)
             const data = await response.json()
             return data
         }
