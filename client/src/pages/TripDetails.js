@@ -10,6 +10,7 @@ const TripDetails = ({data, api_url}) => {
     const [post, setPost] = useState({id: 0, title: "", description: "", img_url: "", num_days: 0, start_date: "", end_date: "", total_cost: 0.0 })
     const [activities, setActivities] = useState([])
     const [destinations, setDestinations] = useState([])
+    const [travelers, setTravelers] = useState([])
 
     useEffect(() => {
         const result = data.filter(item => item.id === parseInt(id))[0];
@@ -29,57 +30,91 @@ const TripDetails = ({data, api_url}) => {
             
         }
 
+        const fetchTravelers = async () => {
+            const response = await fetch(`${api_url}/api/users-trips/users/${id}`)
+            const data = await response.json()
+            setTravelers(data)
+        }
 
         fetchActivities();
         fetchDestinations();
+        fetchTravelers();
 
     }, [data, id]);
 
 
     return (
-        <div className="out">
-            <div className="flex-container">
+      <div className="out">
+        <div className="flex-container">
+          <div className="travelers">
+            {travelers && travelers.length > 0
+              ? travelers.map((traveler, index) => (
+                  <p
+                    key={index}
+                    style={{
+                      textAlign: "center",
+                      lineHeight: 0,
+                      paddingTop: 20,
+                    }}
+                  >
+                    {traveler.username}
+                  </p>
+                ))
+              : ""}
 
-                <div className="left-side">
-                    <h3>{post.title}</h3>
-                    <p>{"🗓️ Duration: " + post.num_days + " days "}</p>
-                    <p>{"🛫 Depart: " + post.start_date }</p>
-                    <p>{"🛬 Return: " + post.end_date}</p>
-                    <p>{post.description}</p>
-                </div>
+            <br />
+            <Link to={"/users/add/" + id}>
+              <button className="addActivityBtn">+ Add Traveler</button>
+            </Link>
+          </div>
 
-                <div className="right-side" style={{ backgroundImage:`url(${post.img_url})`}}>
-                </div>
-            </div>
+          <div className="left-side">
+            <h3>{post.title}</h3>
+            <p>{"🗓️ Duration: " + post.num_days + " days "}</p>
+            <p>{"🛫 Depart: " + post.start_date}</p>
+            <p>{"🛬 Return: " + post.end_date}</p>
+            <p>{post.description}</p>
+          </div>
 
-            <div className="flex-container">
-                <div className="activities">
-                {
-                activities && activities.length > 0 ?
-                activities.map((activity,index) => 
-                    <ActivityBtn id={activity.id} activity={activity.activity} num_votes={activity.num_votes}/>
-                ) : ''
-                }
-                    <br/>
-                    <Link to={'../../activity/create/'+ id }><button className="addActivityBtn">+ Add Activity</button></Link>
-                </div>
-                <div className="destinations">
-                {
-                destinations && destinations.length > 0 ?
-                destinations.map((destination,index) => 
-                    <DestinationBtn id={destination.id} destination={destination.destination} />
-                ) : ''
-                }
-                    <br/>
-                    <Link to={'../../destination/new/'+id}><button className="addDestinationBtn">+ Add Destination</button></Link>
-                </div>
-            </div>
-            
+          <div
+            className="right-side"
+            style={{ backgroundImage: `url(${post.img_url})` }}
+          ></div>
         </div>
-            
 
-
-    )
+        <div className="flex-container">
+          <div className="activities">
+            {activities && activities.length > 0
+              ? activities.map((activity, index) => (
+                  <ActivityBtn
+                    id={activity.id}
+                    activity={activity.activity}
+                    num_votes={activity.num_votes}
+                  />
+                ))
+              : ""}
+            <br />
+            <Link to={"../../activity/create/" + id}>
+              <button className="addActivityBtn">+ Add Activity</button>
+            </Link>
+          </div>
+          <div className="destinations">
+            {destinations && destinations.length > 0
+              ? destinations.map((destination, index) => (
+                  <DestinationBtn
+                    id={destination.id}
+                    destination={destination.destination}
+                  />
+                ))
+              : ""}
+            <br />
+            <Link to={"../../destination/new/" + id}>
+              <button className="addDestinationBtn">+ Add Destination</button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
 }
 
 export default TripDetails

@@ -11,6 +11,8 @@ import Login from './pages/Login'
 import { Link } from 'react-router-dom'
 import CreateActivity from './pages/CreateActivity';
 import AddToTrip from './pages/AddToTrip';
+import Avatar from './components/Avatar';
+import AddUserToTrip from './pages/AddUserToTrip';
 
 
 
@@ -125,15 +127,15 @@ const App = () => {
           <Login api_url={API_URL} />
         ),
     },
-    // {
-    //   path: "/users/add/:trip_id",
-    //   element:
-    //     user && user.id ? (
-    //       <AddUserToTrip user={user} />
-    //     ) : (
-    //       <Login api_url={API_URL} />
-    //     ),
-    // },
+    {
+      path: "/users/add/:trip_id",
+      element:
+        user && user.id ? (
+          <AddUserToTrip user={user} />
+        ) : (
+          <Login api_url={API_URL} />
+        ),
+    },
   ]);
 
   
@@ -148,6 +150,7 @@ const App = () => {
                 <Link to='/destinations'><button className='headerBtn'>Explore Destinations</button></Link>
                 <Link to='/trip/new'><button className='headerBtn'> + Add Trip </button></Link>
                 <Link onClick={logout}><button className='headerBtn'>Logout</button></Link>
+                <Avatar className='avatar' user={user} />
             </div>
         : <></>
     }
