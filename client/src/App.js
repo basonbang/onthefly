@@ -7,6 +7,7 @@ import EditTrip from './pages/EditTrip'
 import CreateDestination from './pages/CreateDestination';
 import ReadDestinations from './pages/ReadDestinations'
 import TripDetails from './pages/TripDetails'
+import Login from './pages/Login'
 import { Link } from 'react-router-dom'
 import CreateActivity from './pages/CreateActivity';
 import AddToTrip from './pages/AddToTrip';
@@ -15,20 +16,28 @@ import AddToTrip from './pages/AddToTrip';
 
 const App = () => {
   
+  const [user, setUser] = useState(null)
   const [trips, setTrips] = useState([]);
   const [destinations, setDestinations] = useState([]);
+  const API_URL = 'http://localhost:3001'
 
   useEffect(() => {
+    const getUser = async() => {
+      const response = await fetch(`${API_URL}/auth/login/success`, { credentials: 'include'})
+      const json = await response.json()
+      setUser(json.user)
+    }
     const fetchTrips = async () => {
-      const response = await fetch('http://localhost:3001/api/trips')
+      const response = await fetch(`${API_URL}/api/trips`)
       const data = await response.json()
       setTrips(data)
     }
     const fetchDestinations = async () => {
-      const response = await fetch('http://localhost:3001/api/destinations')
+      const response = await fetch(`${API_URL}/api/destinations`)
       const data = await response.json()
       setDestinations(data)
     }
+    getUser()
     fetchTrips()
     fetchDestinations()
   }, []);
@@ -39,52 +48,103 @@ const App = () => {
   let element = useRoutes([
     {
       path: "/",
-      element:<ReadTrips data={trips}/>
+      element:
+        user && user.id ? (
+          <ReadTrips user={user} data={trips} />
+        ) : (
+          <Login api_url={API_URL} />
+        ),
     },
     {
-      path:"/trip/new",
-      element: <CreateTrip />
+      path: "/trip/new",
+      element:
+        user && user.id ? (
+          <CreateTrip user={user} api_url={API_URL} />
+        ) : (
+          <Login api_url={API_URL} />
+        ),
     },
     {
-      path:"/edit/:id",
-      element: <EditTrip data={trips} />
+      path: "/edit/:id",
+      element:
+        user && user.id ? (
+          <EditTrip user={user} data={trips} api_url={API_URL} />
+        ) : (
+          <Login api_url={API_URL} />
+        ),
     },
     {
-      path:"/destinations",
-      element: <ReadDestinations data={destinations} />
+      path: "/destinations",
+      element:
+        user && user.id ? (
+          <ReadDestinations user={user} data={destinations} />
+        ) : (
+          <Login api_url={API_URL} />
+        ),
     },
     {
-      path:"/trip/get/:id",
-      element: <TripDetails data={trips} />
+      path: "/trip/get/:id",
+      element:
+        user && user.id ? (
+          <TripDetails user={user} data={trips} api_url={API_URL} />
+        ) : (
+          <Login api_url={API_URL} />
+        ),
     },
     {
-      path:"/destination/new/:trip_id",
-      element: <CreateDestination />
+      path: "/destination/new/:trip_id",
+      element:
+        user && user.id ? (
+          <CreateDestination user={user} api_url={API_URL} />
+        ) : (
+          <Login api_url={API_URL} />
+        ),
     },
     {
-      path:"/activity/create/:trip_id",
-      element: <CreateActivity />
+      path: "/activity/create/:trip_id",
+      element:
+        user && user.id ? (
+          <CreateActivity user={user} api_url={API_URL} />
+        ) : (
+          <Login api_url={API_URL} />
+        ),
     },
     {
-      path:"/destinations/add/:destination_id",
-      element: <AddToTrip data={trips}/>
-    }
+      path: "/destinations/add/:destination_id",
+      element:
+        user && user.id ? (
+          <AddToTrip user={user} data={trips} api_url={API_URL} />
+        ) : (
+          <Login api_url={API_URL} />
+        ),
+    },
+    // {
+    //   path: "/users/add/:trip_id",
+    //   element:
+    //     user && user.id ? (
+    //       <AddUserToTrip user={user} />
+    //     ) : (
+    //       <Login api_url={API_URL} />
+    //     ),
+    // },
   ]);
 
   
   return ( 
 
-    <div className="App">
-
-      <div className="header">
-
-        <h1>On The Fly ✈️</h1>
-        <Link to="/"><button className="headerBtn">Explore Trips</button></Link>
-        <Link to="/destinations"><button className="headerBtn">Explore Destinations</button></Link>
-        <Link to="/trip/new"><button className="headerBtn"> + Add Trip </button></Link>
-      </div>
-        {element}
-    </div>
+    <div className='App'>
+    {
+        user && user.id ?
+            <div className='header'>
+                <h1>On The Fly ✈️</h1>
+                <Link to='/'><button className='headerBtn'>Explore Trips</button></Link>
+                <Link to='/destinations'><button className='headerBtn'>Explore Destinations</button></Link>
+                <Link to='/trip/new'><button className='headerBtn'> + Add Trip </button></Link>
+            </div>
+        : <></>
+    }
+    {element}
+</div>
 
   );
 }
