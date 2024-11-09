@@ -37,10 +37,17 @@ const App = () => {
       const data = await response.json()
       setDestinations(data)
     }
+    
     getUser()
     fetchTrips()
     fetchDestinations()
   }, []);
+
+  const logout = async () => {
+    const response = await fetch(`${API_URL}/auth/logout`, { credentials: 'include'})
+    const json = await response.json()
+    window.location.href = '/'
+  }
 
   
 
@@ -140,6 +147,7 @@ const App = () => {
                 <Link to='/'><button className='headerBtn'>Explore Trips</button></Link>
                 <Link to='/destinations'><button className='headerBtn'>Explore Destinations</button></Link>
                 <Link to='/trip/new'><button className='headerBtn'> + Add Trip </button></Link>
+                <Link onClick={logout}><button className='headerBtn'>Logout</button></Link>
             </div>
         : <></>
     }
